@@ -1,17 +1,20 @@
 let page;
 
+beforeEach(async () => {
+    page = await browser.newPage();
+}, 60000);
+
+afterEach(() => {
+    page.close();
+});
+
 describe("Github page tests", () => {
 
     describe("initial tests", () => {
 
         beforeEach(async () => {
-            page = await browser.newPage();
             await page.goto("https://github.com/team");
-        });
-
-        afterEach(() => {
-            page.close();
-        });
+        }, 60000);
 
         test("The h1 header content'", async () => {
             const firstLink = await page.$("header div div a");
@@ -36,79 +39,39 @@ describe("Github page tests", () => {
         }, 60000);
     })
 
-    describe("My tests for page Explore", () => {
+    describe("my tests for different pages", () => {
 
-        beforeEach(async () => {
-            page = await browser.newPage();
+        test("The content of the h1 header on the page Explore", async () => {
             await page.goto("https://github.com/explore");
-        });
-
-        afterEach(() => {
-            page.close();
-        });
-
-        test("The h1 header content'", async () => {
             const selector = await page.$("a:nth-child(4)");
             await selector.click();
             await page.waitForSelector('h1');
             const title = await page.title();
             expect(title).toEqual('Trending repositories on GitHub today · GitHub');
         }, 60000);
-    });
 
-    describe("My tests for page Enterprise", () => {
-
-        beforeEach(async () => {
-            page = await browser.newPage();
+        test("The content of the h1 header on the page Enterprise", async () => {
             await page.goto("https://github.com/enterprise");
-        });
-
-        afterEach(() => {
-            page.close();
-        });
-
-        test("The h1 header content'", async () => {
             await page.waitForSelector('h1');
             const title = await page.title();
             expect(title).toEqual('Enterprise · A smarter way to work together · GitHub');
         }, 60000);
-    });
 
-    describe("My tests for page Marketplace", () => {
-
-        beforeEach(async () => {
-            page = await browser.newPage();
+        test("The content of the h1 header on the page Marketplac", async () => {
             await page.goto("https://github.com/marketplace");
-        });
-
-        afterEach(() => {
-            page.close();
-        });
-
-        test("The h1 header content'", async () => {
             const selector = await page.$("div.container-lg.p-responsive.text-center.text-md-left > div > div > a");
             await selector.click();
             await page.waitForSelector('h1');
             const title = await page.title();
             expect(title).toEqual('GitHub Marketplace · Tools to improve your workflow · GitHub');
         }, 60000);
-    });
 
-    describe("My tests for Netology", () => {
-
-        beforeEach(async () => {
-            page = await browser.newPage();
+        test("The content of the h1 header on the page Netology.ru", async () => {
             await page.goto("https://netology.ru/");
-        });
-
-        afterEach(() => {
-            page.close();
-        });
-
-        test("The h1 header content'", async () => {
             const selector = await page.$("a.src-shared-components-Header--link--yx1Hg.src-shared-components-Header--hideMdDown--GIrXY");
             await selector.click();
             await page.waitForSelector('h1');
+            
             const title = await page.title();
             expect(title).toEqual('Бесплатные онлайн курсы, вебинары и гайды – обучение в Нетологии');
         }, 60000);
